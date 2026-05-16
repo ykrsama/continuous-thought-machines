@@ -20,6 +20,7 @@ examples/*
 !examples/03_mazes.ipynb
 !examples/04_parity.ipynb
 !examples/05_huggingface.ipynb
+!examples/06_mnist_ctmattention.ipynb
 !examples/goldfish.jpg
 checkpoints
 utils/hugging_face/
