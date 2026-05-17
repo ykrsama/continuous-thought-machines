@@ -12,7 +12,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from models.modules import SuperLinear
+from models.modules import SuperLinear, Squeeze
 
 
 def _build_nlm(memory_length, n_neurons, dropout=0.0):
@@ -21,8 +21,12 @@ def _build_nlm(memory_length, n_neurons, dropout=0.0):
     Input shape:  (B, n_neurons, memory_length)
     Output shape: (B, n_neurons)
     """
-    return SuperLinear(in_dims=memory_length, out_dims=1,
-                       N=n_neurons, dropout=dropout)
+    return nn.Sequential(
+        SuperLinear(in_dims=memory_length, out_dims=2,
+                    N=n_neurons, dropout=dropout),
+        nn.GLU(),
+        Squeeze(-1)
+    )
 
 
 def _compute_sync_first_last(activated, n_synch, side, decay_alpha, decay_beta, r):
